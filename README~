@@ -1,0 +1,9 @@
+Ceranubis is a distributed computing system that allows tasks to be spooled up and distributed between nodes through out the system.
+
+Ceranubis is:
+A system for remote execution of python code.
+
+Ceranubis is not:
+A distributer of python libraries
+
+Ceranubis is built off of three base libraries. cNetwork, cCommon, cData. What I'm changing compared to previous versions of Ceranubis is the data library. Previously what I had done is the database as well as the server and client were capable of making requests over the network layer. What I'm going to do this time is just make the database layer the interface system. So 
