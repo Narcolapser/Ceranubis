@@ -8,6 +8,7 @@
 import random
 import imp
 import sys
+import os
 
 class Project:
 	def __init__(self,ID,code,target):
@@ -32,7 +33,7 @@ class Project:
 		f = open('outs','a')
 		f.write("AID: " + str(AID) + " result: " + str(result) + "\n")
 		f.close()
-		print "AID: " + str(AID) + " result: " + str(result)
+#		print "PID: " + str(os.getpid()) + " AID: " + str(AID) + " result: " + str(result)
 		
 
 def getProject():
