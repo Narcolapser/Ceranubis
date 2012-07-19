@@ -1,13 +1,50 @@
 Ceranubis is a distributed computing system that allows tasks to be spooled up and distributed between nodes through out the system.
 
-Ceranubis is:
-A system for remote execution of python code.
 
-Ceranubis is not:
-A distributer of python libraries
+Ceranubis has previously been built as a collection of libraries and systems that connect together to get information transfered between the client, server, and nodes. This lead me to the creation of networking libraries, database systesms, and the like. I'm going to try something different with Ceranubis 0.7. I'm going to try and keep this as simple as I can manage, and in doing so what I've decided to do is have the entire network and server system replaced by PostgreSQL. Projects will now be a string that represents the code and a list of argument tuples. A client will submit a project by doing an insert on the DB. insert the project into the projects table and the args into the arguments table. the server, no longer being contious, cares not about spooling anymore. The Nodes now connect to the server by just running a query. They will query the server at set intervas when idle and update rows when they declare they are taking the args or returning the results. 
 
-Ceranubis is built off of three base libraries. cNetwork, cCommon, cData. What I'm changing compared to previous versions of Ceranubis is the data library. Previously what I had done is the database as well as the server and client were capable of making requests over the network layer. What I'm going to do this time is just make the database layer the interface system. The databases of the nodes and server will be kept in sync, so the higher level systems can be made unaware of the lower systems. 
+That's it. compared to my previous attempts this is tiny. the extra frill I'll have to add is the ability to manage the client, server, and Nodes. 
 
-I'm also changing the way this works a bit. previously you would pickle a class and send that out with the code and what not. What I'm doing now instead is making it work more like OpenCL. Only a string is passed to the system to be the part executed on. This helps people conceptuatly get over the problem of not necessarily having the libraries you want to use over the network being there. You should try to have as much as possible in the string, resorting to only default libraries when you stray, or ones you garuntee will be there.
+DB Schema:
+Project:
+	PID Integer - Unique ID for the projects
+	Code String - the code to be run.
+
+Arguments:
+	AID Integer - Unique ID for arguments, not a primary key
+	PID Integer - foriegn key to project, AID+PID
+	Args String - Pickled tuple of arguments.
+	Result String - Pickled results returned from the method called.
 
 
+Node SQL queries:
+	Request Args
+	Return Results
+	Request Project
+
+Client SQL queries:
+	Commit project
+	Request status
+	Request results
+
+---------------------------------------------------------------------------------------------------
+
+The client library will be something the user imports. I hate hate hate call backs, they make you feel so constrained. There is really only three calls in the client library, and they basically are the queries above. but elaborating a bit:
+client.commitProject(serverIP,projectCode,targetFunction,listOfArgumentTuples)
+	serverIP: the IP address of the server where the postgreSQL server is located.
+	projectCode: the string of the code to be run. the kernel if you want to talk in OpenCL terms. 
+	targetFunction: to keep from limiting the user to a name like "main" or something, you must send a string of the name of the function you wish to be calling in the code string you sent with the last argument.
+	listOfArgumentTuples: this one I do have limit the user. Dynamically adjusting the calling of arguments is painfully difficult and while I'm sure I could figure out a way to it, not worth the effort. the user can do a pass through method if it really bugs him/her. anyway, this is a list of the arguments to be passed to the function being called.
+	Returns: a instance of the Project class. This class really only maintains the project ID, but it does so that the user doesn't have to. the entire database system is abstracted away, but this instance is what is used for the next 2 methods.
+
+Project.status()
+	returns: a tuple of (#argsCompleted,#argsInProgress,#args) which can be used to find the percent of the project completed. 
+
+Project.results()
+	returns: all of the currently completed arguments. this method cares not for the amount of completion of the project, it just returns anything it can. it returns a list of tuples. the first peice of the tuple is the argument sent, the second peice is the result for that argument.
+
+That is the entire interface for the user, nice and simple. 
+
+---------------------------------------------------------------------------------------------------
+
+Node will be the program that actualy runs on the remote machines. Its functions also are reflections of the queries above. it will request project, it gets back a project ID. This is the project ID it will use until the project is done or some other qualifier is met. With this project ID it will request arguments associated with the PID. it will take the argument, run the code provided by the user with the argument, return the result. 
