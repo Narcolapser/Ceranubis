@@ -1,0 +1,35 @@
+working on database stuff today, so a lot of random snipets are going to find their way into this doc.
+
+connnecting to the database:
+db = postgresql.open("pq://ceranubis:raidersrow@localhost/ceranubis")
+db = postgresql.open("pq://user:password@host/name_of_database")
+
+Create the projects table:
+'CREATE TABLE projects (projectID integer PRIMARY KEY, completed boolean, code text, target text); ALTER TABLE projects OWNER TO ceranubis; GRANT SELECT, UPDATE, INSERT ON TABLE projects TO public;'
+
+So I was banging my head trying to figure out why I couldn't get my inserts to work. simple answer: strings are delimited by ' not by ".
+
+inserting into projects:
+db.execute("INSERT INTO projects VALUES(3,false,'import math\n\ndef sqrt(val):\n\treturn math.sqrt(val)','sqrt')")
+db.execute("INSERT INTO projects VALUES(PID,status,'CODE!','target')")
+
+reading from projects
+g = db.prepare("SELECT * FROM projects WHERE completed= $1")
+a = g(False)
+
+Create the arguments table:
+CREATE TABLE arguments
+(
+   "ArgID" integer NOT NULL, 
+   "ProjID" integer NOT NULL, 
+   "Args" text NOT NULL, 
+   "Results" text, 
+   CONSTRAINT args_pk PRIMARY KEY ("ArgID", "ProjID")
+) 
+WITH (
+  OIDS = FALSE
+)
+;
+ALTER TABLE arguments OWNER TO ceranubis;
+GRANT SELECT, UPDATE, INSERT ON TABLE arguments TO public;
+
