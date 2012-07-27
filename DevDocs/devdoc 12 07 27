@@ -1,0 +1,29 @@
+just as a little side note to explain some of the method of my madness. I choose my data types to be only text and integer for a very important reason. the table creation and sql queries that I'm making to run in postgresql also drop in place to run in sqlite3 databases as well. I'm a big fan of sqlite3 dbs so i wanted to make sure I had compatibility with them entirly. This creates back ups for one very easy, i can dump the entire postgresql db into a sqlite db and its now just a simple file I can move about as I please or analyse how I know and love.
+
+for the time being, I'm going to have to make the stipulation that the only arguments supported are strings. I'll work on changing this at some point in the future, but for now that's all I can manage.
+
+
+get all projects and their associated arguments:
+SELECT 
+  projects.projectid, 
+  projects.target, 
+  arguments.ArgID, 
+  arguments.Arg,
+  arguments.Result
+FROM 
+  public.arguments join public.projects ON public.arguments.ProjID = public.projects.projectID;
+
+update command:
+Update arguments
+SET Result = 'done'
+WHERE ArgID = 419785788 AND ProjID = 1234792826;
+
+I removed the quotes from around the columns names that postgresql had put there by default, now I don't have to have quotes in my queries, thank goodness, that was driving me nuts.
+
+
+appearently all select statements must be down with prepared statements:
+gargs = db.prepare("select * FROM arguments WHERE projID = $1")
+for row in gargs(1234792826):
+	print(row)
+
+

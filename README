@@ -38,7 +38,7 @@ client.commitProject(serverIP,projectCode,targetFunction,listOfArgumentTuples)
 	Returns: a instance of the Project class. This class really only maintains the project ID, but it does so that the user doesn't have to. the entire database system is abstracted away, but this instance is what is used for the next 2 methods.
 
 Project.status()
-	returns: a tuple of (#argsCompleted,#argsInProgress,#args) which can be used to find the percent of the project completed. 
+	returns: a tuple of (#argsCompleted,#args) which can be used to find the percent of the project completed. 
 
 Project.results()
 	returns: all of the currently completed arguments. this method cares not for the amount of completion of the project, it just returns anything it can. it returns a list of tuples. the first peice of the tuple is the argument sent, the second peice is the result for that argument.

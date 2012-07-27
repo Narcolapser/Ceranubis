@@ -20,11 +20,11 @@ a = g(False)
 Create the arguments table:
 CREATE TABLE arguments
 (
-   "ArgID" integer NOT NULL, 
-   "ProjID" integer NOT NULL, 
-   "Args" text NOT NULL, 
-   "Results" text, 
-   CONSTRAINT args_pk PRIMARY KEY ("ArgID", "ProjID")
+   ArgID integer NOT NULL, 
+   ProjID integer NOT NULL, 
+   Arg text NOT NULL, 
+   Result text, 
+   CONSTRAINT args_pk PRIMARY KEY (ArgID, ProjID)
 ) 
 WITH (
   OIDS = FALSE
