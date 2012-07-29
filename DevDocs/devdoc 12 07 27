@@ -26,4 +26,4 @@ gargs = db.prepare("select * FROM arguments WHERE projID = $1")
 for row in gargs(1234792826):
 	print(row)
 
-
+and I have officially completed the client. woohoo and all that. Now all that is left is to update the node so that it can run on the db instead of scafolding code I put up.

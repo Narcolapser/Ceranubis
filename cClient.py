@@ -59,11 +59,11 @@ class Project:
 		getRes = db.prepare("SELECT arg,result from arguments where result is not null;")	
 		return getRes()
 
-#def commitProject(serverIP,projectCode,targetFunction,listOfArgument):
-#	p = Project(serverIP,projectCode,targetFunction,listOfArgument)
-#	if p.connected:
-#		return p
-#	return False
+def commitProject(serverIP,projectCode,targetFunction,listOfArgument):
+	p = Project(serverIP,projectCode,targetFunction,listOfArgument)
+	if p.connected:
+		return p
+	return False
 
 #q = commitProject('localHost','derpaderpyderp','monkies!',['wooooooo','arg2!'])
 #if q:

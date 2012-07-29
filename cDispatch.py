@@ -1,11 +1,13 @@
 from multiprocessing import Process, Event
 import os
+import time
 
 def run(event):
-	os.system('python cNode.py')
+	os.system('python3 cNode.py')
 	event.set()
 
-cores = 4
+responseTime = 60
+cores = 8
 processes = []
 
 flip = Event()
@@ -16,6 +18,7 @@ for core in range(cores):
 
 
 while 1:
+	time.sleep(60)
 	flip.wait(60)
 	flip.clear()
 	for i,process in enumerate(processes):
