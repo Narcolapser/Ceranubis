@@ -12,7 +12,7 @@ for i in argsNums:
 	args.append(str(i))
 
 
-p = cClient.commitProject('localHost',code,target,args)
+p = cClient.commitProject('10.3.11.108',code,target,args)
 
 s = p.status()
 

@@ -1,7 +1,7 @@
 ###################################################################################################
 #	Project:	Ceranubis
 #	Programer:	Toben "Littlefoot" Archer
-#	Date:		2012-07-24
+#	Date:		2013-02-14
 #	Purpose:	cClient is the client library for the ceranubis system. its purpose is to 
 #		Take batched jobs from the user and drop them into the system's database. where 
 #		nodes will proceed to bring the data down for processing.
@@ -65,12 +65,12 @@ def commitProject(serverIP,projectCode,targetFunction,listOfArgument):
 		return p
 	return False
 
-#q = commitProject('localHost','derpaderpyderp','monkies!',['wooooooo','arg2!'])
-#if q:
-#	print("WOOOOOOOOOOOOOOOOO")
-#input()
-#stat = q.status()
-#print(stat)
+q = commitProject('localHost','derpaderpyderp','monkies!',['wooooooo','arg2!'])
+if q:
+	print("WOOOOOOOOOOOOOOOOO")
+input()
+stat = q.status()
+print(stat)
 
 #res = q.results()
 #print(res)

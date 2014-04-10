@@ -1,7 +1,7 @@
 ###################################################################################################
 #	Project:	Ceranubis
 #	Programer:	Toben "Littlefoot" Archer
-#	Date:		2012-07-18
+#	Date:		2013-02-18
 #	Purpose:	cNode is the programing behind running the requested code remotely.
 #################################################
 
