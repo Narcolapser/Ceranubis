@@ -68,7 +68,7 @@ def commitProject(serverIP,projectCode,targetFunction,listOfArgument):
 q = commitProject('localHost','derpaderpyderp','monkies!',['wooooooo','arg2!'])
 if q:
 	print("WOOOOOOOOOOOOOOOOO")
-input()
+eval(input())
 stat = q.status()
 print(stat)
 

@@ -24,7 +24,7 @@ def importCode(code,name,add_to_sys_modules=0):
 	"""
 	module = imp.new_module(name)
 
-	exec code in module.__dict__
+	exec(code, module.__dict__)
 	if add_to_sys_modules:
 		sys.modules[name] = module
 
@@ -39,9 +39,9 @@ tmod = eval('importCode(f,"'+ mod +'.py",1)')
 
 phases = json.loads(j)['phases']
 testsPassed = True
-print "\nTesting library: " + mod + ".py\n"
+print("\nTesting library: " + mod + ".py\n")
 for phase in phases:
-	print "begining phase: " + phase['phaseName']
+	print("begining phase: " + phase['phaseName'])
 	phasePass = True
 	for test in phase['tests']:
 		obJson = test['args'][0]
@@ -73,23 +73,23 @@ for phase in phases:
 		else:
 			expect = test['result']['val']
 		if result == expect or (isinstance(result,Exception) and isinstance(expect,Exception)):
-			print "passed: " + test['testName']
+			print("passed: " + test['testName'])
 		elif isinstance(result,float) and isinstance(expect,float):
 			if str(result) == str(expect):
-				print "passed: " + test['testName']
+				print("passed: " + test['testName'])
 			else:
-				print "fail: "+test['testName'] + ", got: " + str(result) + " expected: " + str(expect)
+				print("fail: "+test['testName'] + ", got: " + str(result) + " expected: " + str(expect))
 				phasePass = False
 	
 		else:
-			print "fail: "+test['testName'] + ", got: " + str(result) + " expected: " + str(expect)
+			print("fail: "+test['testName'] + ", got: " + str(result) + " expected: " + str(expect))
 			phasePass = False
 	if phasePass:
-		print "Phase sucessefully completed.\n"
+		print("Phase sucessefully completed.\n")
 	else:
-		print "Phase was not sucessful.\n"
+		print("Phase was not sucessful.\n")
 		testsPassed = False
 if testsPassed:
-	print "All tests completed sucessfully, library is correct."
+	print("All tests completed sucessfully, library is correct.")
 else:
-	print "Not all tests were completed sucessfully, review code."
+	print("Not all tests were completed sucessfully, review code.")

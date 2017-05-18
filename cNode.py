@@ -59,7 +59,7 @@ def doTheCodeThatWasSentByTheUserForCeranubisToProcessByAFunctionNamedSomethingT
 	return ret
 
 p = getProject('localhost')
-exec(p.code) in globals()
+exec((p.code), globals())
 while p.doWork():
 	pass
 
